@@ -22,7 +22,10 @@ function startGame() {
     quizContainer.classList.remove("hide");
     shuffleQuestions = questionsBank.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
+    isWin = false;
+    timerCount = 60;
     setNextQuestion();
+    startTimer();
 
 }
 
@@ -107,27 +110,27 @@ startButton.addEventListener("click", hideIntro);
 // }
 
 // // The setTimer function starts and stops the timer and triggers winGame() and loseGame()
-// function startTimer() {
-//     // Sets timer
-//     timer = setInterval(function() {
-//       timerCount--;
-//       timerElement.textContent = timerCount;
-//       if (timerCount >= 0) {
-//         // Tests if win condition is met
-//         if (isWin && timerCount > 0) {
-//           // Clears interval and stops timer
-//           clearInterval(timer);
-//           winGame();
-//         }
-//       }
-//       // Tests if time has run out
-//       if (timerCount === 0) {
-//         // Clears interval
-//         clearInterval(timer);
-//         loseGame();
-//       }
-//     }, 1000);
-//   }
+function startTimer() {
+    // Sets timer
+    timer = setInterval(function() {
+      timerCount--;
+      timerElement.textContent = timerCount;
+      if (timerCount >= 0) {
+        // Tests if win condition is met
+        if (isWin && timerCount > 0) {
+          // Clears interval and stops timer
+          clearInterval(timer);
+          winGame();
+        }
+      }
+      // Tests if time has run out
+      if (timerCount === 0) {
+        // Clears interval
+        clearInterval(timer);
+        loseGame();
+      }
+    }, 1000);
+  }
 
 //   function generateQuiz() {
 //     var output = [];
