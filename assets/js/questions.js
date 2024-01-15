@@ -18,7 +18,7 @@ var questionsBank = [
       correctAnswer: "c"
     },
     {
-      question: "What console log does in Javascript",
+      question: "What console log does in Javascript?",
       answers: {
         a: "runs through the data in array",
         b: "displays the information",
