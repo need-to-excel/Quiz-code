@@ -4,14 +4,30 @@ var quizContainer = document.querySelector("#questions");
 var questionTitle = document.querySelector("#question-title");
 var choices = document.querySelector("#choices");
 var endScreen = document.querySelector("#end-screen");
+var finalScore = document.querySelector("#final-score");
+var initials = document.querySelector("#initials");
 var submit = document.querySelector("#submit");
 var feedback = document.querySelector("#feedback");
 var timerElement = document.querySelector("#time");
+
+submit.addEventListener("click", storingInitials )
+function storingInitials() {
+console.log(initials.value);
+var highScore = {initial: initials.value, score: score}
+storedScores.push(highScore);
+localStorage.setItem("highScore", JSON.stringify(storedScores));
+
+}
+
+var storedScores = JSON.parse(localStorage.getItem("highScore")) || [];
+console.log(storedScores);
 
 var timer;
 var timerCount;
 var chooseAnswer = "";
 var isWin = false;
+var score = 0;
+var winCounter = 0;
 
 var shuffleQuestions, currentQuestionIndex;
 
@@ -44,7 +60,9 @@ function showQuestions(question) {
         button.classList.add("btn");
         if(key === question.correctAnswer) {
             button.dataset.correct = true;
-        }
+            score++;
+            console.log(score);
+      }
         button.addEventListener("click", selectAnswer);
         choices.appendChild(button);
     }    
@@ -53,38 +71,18 @@ function showQuestions(question) {
 function selectAnswer(event) {
     const thisButton = event.target;
 if(!thisButton.dataset.correct) {
-    console.log("this is incorrect")
-}
+    console.log("this is incorrect");
+    timerCount = timerCount - 10;
+}  
 currentQuestionIndex++;
+if(currentQuestionIndex > questionsBank.length - 1) {
+    endQuiz();
+}
+else {
 setNextQuestion();
 }
-
-
-
-// function generateQuiz(){
-//     var output = [];
-//     questionsBank.forEach(
-//         (currentQuestion, questionNumber) => {
-//         var answers = [];
-
-//         for(letter in currentQuestion.answers){
-//             answers.push(
-//                `<label>
-//                     <input type="radio" name="question${questionNumber}" value="${letter}">
-//                     ${letter} :
-//                     ${currentQuestion.answers[letter]}
-//                 </label>`
-//             );
-//         }
-
-//     output.push(
-//         `<div class="question"> ${currentQuestion.question} </div>
-//         <div class="answers"> ${answers.join("")} </div>`
-//     );
-//     }
-//     );
-// quizContainer.innerHTML = output.join("");
-// }
+}
+// console.log(correctAnswers);
 
 
 function hideIntro() {
@@ -92,22 +90,6 @@ function hideIntro() {
   };
 
 startButton.addEventListener("click", hideIntro);
-
-// document.getElementById("question-title") = questionsBank.question;
-// function getQuestions() {
-//     startButton
-// }
-// question.addEventListener("click")
-
-
-// function startGame() {
-//     isWin = false;
-//     timerCount = 60;
-//     // Prevents start button from being clicked when round is in progress
-//     // startButton.disabled = true;
-//     // renderBlanks()
-//     startTimer()
-// }
 
 // // The setTimer function starts and stops the timer and triggers winGame() and loseGame()
 function startTimer() {
@@ -120,47 +102,21 @@ function startTimer() {
         if (isWin && timerCount > 0) {
           // Clears interval and stops timer
           clearInterval(timer);
-          winGame();
+        //   winGame();
         }
       }
       // Tests if time has run out
-      if (timerCount === 0) {
-        // Clears interval
-        clearInterval(timer);
-        loseGame();
+      if (timerCount <= 0) {
+        endQuiz();
+        // loseGame();
       }
     }, 1000);
   }
 
-//   function generateQuiz() {
-//     var output = [];
-//     var answers;
+  function endQuiz() {
+    clearInterval(timer);
+    endScreen.classList.remove("hide");
+    finalScore.textContent = score;
+    quizContainer.classList.add("hide");
+  }
 
-//     for(var index = 0; index < questionsBank.length; index++) {
-//         answers = [];
-//         console.log(answers)
-//     }
-//   }
-
-//   Quiz(startButton, questionsBank, question, choices, endScreen, submit, feedback);
-
-// function generateQuiz(startButton, questionsBank, question, choices, endScreen, submit, feedback) {
-//     function showQuestions(questionsBank, question) {
-//         var output = [];
-//         var answers;
-        
-//         for(var index=0; index<questionsBank.length; index++) {
-//             answers = [];
-//         }
-//     }
-// }
-
-// startButton.addEventListener("click", generateQuiz);
-
-// questionsBank.forEach( (currentQuestion, questionNumber) => {
-
-// }
-
-
-  //Attach event listener to start button to call startGame function on click
-// startButton.addEventListener("click", startGame);
