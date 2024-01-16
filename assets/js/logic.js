@@ -10,24 +10,18 @@ var submit = document.querySelector("#submit");
 var feedback = document.querySelector("#feedback");
 var timerElement = document.querySelector("#time");
 
-submit.addEventListener("click", storingInitials )
-function storingInitials() {
-console.log(initials.value);
-var highScore = {initial: initials.value, score: score}
-storedScores.push(highScore);
-localStorage.setItem("highScore", JSON.stringify(storedScores));
-
-}
-
-var storedScores = JSON.parse(localStorage.getItem("highScore")) || [];
-console.log(storedScores);
-
 var timer;
 var timerCount;
 var chooseAnswer = "";
 var isWin = false;
 var score = 0;
 var winCounter = 0;
+
+function hideIntro() {
+    startScreen.classList.add("hide");
+  };
+
+startButton.addEventListener("click", hideIntro);
 
 var shuffleQuestions, currentQuestionIndex;
 
@@ -82,34 +76,23 @@ else {
 setNextQuestion();
 }
 }
-// console.log(correctAnswers);
 
-
-function hideIntro() {
-    startScreen.classList.add("hide");
-  };
-
-startButton.addEventListener("click", hideIntro);
-
-// // The setTimer function starts and stops the timer and triggers winGame() and loseGame()
 function startTimer() {
-    // Sets timer
+    
     timer = setInterval(function() {
       timerCount--;
       timerElement.textContent = timerCount;
       if (timerCount >= 0) {
-        // Tests if win condition is met
+        
         if (isWin && timerCount > 0) {
-          // Clears interval and stops timer
+         
           clearInterval(timer);
-        //   winGame();
-        }
+     }
       }
-      // Tests if time has run out
+      
       if (timerCount <= 0) {
         endQuiz();
-        // loseGame();
-      }
+     }
     }, 1000);
   }
 
@@ -120,3 +103,14 @@ function startTimer() {
     quizContainer.classList.add("hide");
   }
 
+  submit.addEventListener("click", storingInitials )
+  function storingInitials() {
+  console.log(initials.value);
+  var highScore = {initial: initials.value, score: score}
+  storedScores.push(highScore);
+  localStorage.setItem("highScore", JSON.stringify(storedScores));
+  
+  }
+  
+  var storedScores = JSON.parse(localStorage.getItem("highScore")) || [];
+  console.log(storedScores);
