@@ -57,6 +57,7 @@ function showQuestions(question) {
             score++;
             console.log(score);
       }
+      
         button.addEventListener("click", selectAnswer);
         choices.appendChild(button);
     }    
@@ -67,6 +68,7 @@ function selectAnswer(event) {
 if(!thisButton.dataset.correct) {
     console.log("this is incorrect");
     timerCount = timerCount - 10;
+    score--;
 }  
 currentQuestionIndex++;
 if(currentQuestionIndex > questionsBank.length - 1) {
@@ -109,6 +111,7 @@ function startTimer() {
   var highScore = {initial: initials.value, score: score}
   storedScores.push(highScore);
   localStorage.setItem("highScore", JSON.stringify(storedScores));
+  console.log(highScore);
   
   }
   
